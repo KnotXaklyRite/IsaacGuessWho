@@ -5,29 +5,22 @@ import tkinter
 from tkinter import *
 import random
 
-characters = ["Isaac", "Magdalene", "Cain", "Judas", "???", "Eve", "Samson", "Azazel", "Lazarus", "Eden", "The Lost", "Lilith", "Keeper", "Apollyon", "The Forgotten", "Bethany", "Jacob and Esau", "Tainted\n Isaac", "Tainted\n Magdalene", "Tainted\n Cain", "Tainted\n Judas", "Tainted\n ???", "Tainted\n Eve", "Tainted\n Samson", "Tainted\n Azazel", "Tainted\n Lazarus", "Tainted\n Eden", "Tainted\n Lost", "Tainted\n Lilith", "Tainted\n Keeper", "Tainted\n Apollyon", "Tainted\n Forgotten", "Tainted\n Bethany", "Tainted\n Jacob", "Dark Judas", "Lazarus Risen", "The Soul", "Dead Tainted\n Lazarus", "Tainted\n Soul"]
+characters = ["Isaac", "Magdalene", "Cain", "Judas", "???", "Eve", "Samson", "Azazel", "Lazarus", "Eden", "The Lost", "Lilith", "Keeper", "Apollyon", "The Forgotten", "Bethany", "Jacob and Esau", "Tainted\n Isaac", "Tainted\n Magdalene", "Tainted\n Cain", "Tainted\n Judas", "Tainted\n ???", "Tainted\n Eve", "Tainted\n Samson", "Tainted\n Azazel", "Tainted\n Lazarus", "Tainted\n Eden", "Tainted\n Lost", "Tainted\n Lilith", "Tainted\n Keeper", "Tainted\n Apollyon", "Tainted\n Forgotten", "Tainted\n Bethany", "Tainted\n Jacob", "Dark Judas", "Lazarus Risen", "The Soul", "Dead Tainted\n Lazarus", "Tainted\n Soul", "Dark Esau"]
 
 window = Tk()
 window.title("Isaac Guess Who")
-window.geometry("800x650")
+window.geometry("800x800")
+window.configure(bg = "Salmon4")
 
-title = Label(window, font = 70, text = "Isaac Guess Who!")
-title.pack()
+titleImage = PIL.Image.open("Title.png")
+titleImage = titleImage.convert("RGBA")
+titleTkImage = ImageTk.PhotoImage(titleImage)
+title = Canvas(window, width = 759, height = 43, bg = "Salmon4", highlightthickness = 0)
+title.pack(pady = 15)
+title.create_image(0, 0, anchor = NW, image = titleTkImage)
 
-yourPickFrame = Frame(window)
-yourPickFrame.pack()
-
-def randomCharacter():
-    yourPick = random.choice(characters)
-    yourCharacterLabel.config(text = yourPick)
-
-
-randomizeLabel = Label(yourPickFrame, text = "Pick random\n character:") #Fuck you Tyler
-randomizeButton = Button(yourPickFrame, command = randomCharacter, text = "Randomize")
-yourCharacterLabel = Label(yourPickFrame, text = "Your Character")
-randomizeLabel.pack(side = LEFT)
-randomizeButton.pack(side = LEFT)
-yourCharacterLabel.pack(side = LEFT)
+yourPickFrame = Frame(window, bg = "Salmon4")
+yourPickFrame.pack(pady = 10)
 
 isaacImage = PIL.Image.open("Isaac.png")
 isaacTkImage = ImageTk.PhotoImage(isaacImage)
@@ -35,10 +28,10 @@ maggyImage = PIL.Image.open("Magdalene.png")
 maggyTkImage = ImageTk.PhotoImage(maggyImage)
 cainImage = PIL.Image.open("Cain.png")
 cainTkImage = ImageTk.PhotoImage(cainImage)
-bbImage = PIL.Image.open("BB.png")
-bbTkImage = ImageTk.PhotoImage(bbImage)
 judasImage = PIL.Image.open("Judas.png")
 judasTkImage = ImageTk.PhotoImage(judasImage)
+bbImage = PIL.Image.open("BB.png")
+bbTkImage = ImageTk.PhotoImage(bbImage)
 eveImage = PIL.Image.open("Eve.png")
 eveTkImage = ImageTk.PhotoImage(eveImage)
 samsonImage = PIL.Image.open("Samson.png")
@@ -70,10 +63,10 @@ tmaggyImage = PIL.Image.open("TMagdalene.png")
 tmaggyTkImage = ImageTk.PhotoImage(tmaggyImage)
 tcainImage = PIL.Image.open("TCain.png")
 tcainTkImage = ImageTk.PhotoImage(tcainImage)
-tbbImage = PIL.Image.open("TBB.png")
-tbbTkImage = ImageTk.PhotoImage(tbbImage)
 tjudasImage = PIL.Image.open("TJudas.png")
 tjudasTkImage = ImageTk.PhotoImage(tjudasImage)
+tbbImage = PIL.Image.open("TBB.png")
+tbbTkImage = ImageTk.PhotoImage(tbbImage)
 teveImage = PIL.Image.open("TEve.png")
 teveTkImage = ImageTk.PhotoImage(teveImage)
 tsamsonImage = PIL.Image.open("TSamson.png")
@@ -109,14 +102,44 @@ dTLazImage = PIL.Image.open("Dead TLazarus.png")
 dTLazTkImage = ImageTk.PhotoImage(dTLazImage)
 tsoulImage = PIL.Image.open("TSoul.png")
 tsoulTkImage = ImageTk.PhotoImage(tsoulImage)
+dEsauImage = PIL.Image.open("Dark Esau.png")
+dEsauTkImage = ImageTk.PhotoImage(dEsauImage)
 
-row1Frame = Frame(window)
-row2Frame = Frame(window)
-row3Frame = Frame(window)
-row4Frame = Frame(window)
-row5Frame = Frame(window)
-row6Frame = Frame(window)
-row7Frame = Frame(window)
+imageList = [isaacTkImage, maggyTkImage, cainTkImage, judasTkImage, bbTkImage, eveTkImage, samsonTkImage, azazelTkImage, lazTkImage, edenTkImage, lostTkImage, lilithTkImage, keeperTkImage, apollyonTkImage, forgorTkImage, bethanyTkImage, jAndETkImage,
+             tisaacTkImage, tmaggyTkImage, tcainTkImage, tjudasTkImage, tbbTkImage,  teveTkImage, tsamsonTkImage, tazazelTkImage, tlazTkImage, tedenTkImage, tlostTkImage, tlilithTkImage, tkeeperTkImage, tapollyonTkImage, tforgorTkImage, tbethanyTkImage, tjAndETkImage,
+             djudasTkImage, lazRisenTkImage, soulTkImage, dTLazTkImage, tsoulTkImage, dEsauTkImage]
+
+def randomCharacter():
+    yourCharacterPicture.delete("all") #Clears the canvas of the character
+
+    tempPick = random.randint(0, len(characters)-1)
+    yourPickText = characters[tempPick]
+    yourPickPicture = imageList[tempPick]
+
+    yourCharacterLabel.config(text = yourPickText)
+    yourCharacterPicture.create_image(35, 24, anchor = CENTER, image = yourPickPicture)
+
+randomizeLabel = Label(yourPickFrame, text = "Pick random\n character:", bg = "Salmon4", font = "bold") #Fuck you Tyler
+randomizeButton = Button(yourPickFrame, command = randomCharacter, text = "Randomize")
+
+characterFrame = Frame(yourPickFrame, bg = "Salmon4")
+yourCharacterLabel = Label(characterFrame, text = "Your Character", bg = "Salmon4", font = "bold")
+yourCharacterPicture = Canvas(characterFrame, width = 70, height = 48, bg = "Salmon4", highlightthickness = 0)
+
+randomizeLabel.pack(side = LEFT, padx = 5)
+randomizeButton.pack(side = LEFT, padx = 5)
+
+characterFrame.pack(side = LEFT, pady = 5)
+yourCharacterLabel.pack()
+yourCharacterPicture.pack()
+
+row1Frame = Frame(window, bg = "Salmon4")
+row2Frame = Frame(window, bg = "Salmon4")
+row3Frame = Frame(window, bg = "Salmon4")
+row4Frame = Frame(window, bg = "Salmon4")
+row5Frame = Frame(window, bg = "Salmon4")
+row6Frame = Frame(window, bg = "Salmon4")
+row7Frame = Frame(window, bg = "Salmon4")
 
 def buttonPress(Button):
     Button.config(activebackground = "grey", bg = "grey", relief = SUNKEN)
@@ -166,6 +189,7 @@ lazRisenButton = Button(row7Frame, activebackground = "salmon1", bg = "tomato4",
 soulButton = Button(row7Frame, activebackground = "salmon1", bg = "tomato4", command = lambda:buttonPress(soulButton), text = "The Soul", image = soulTkImage, compound = BOTTOM)
 dTLazButton = Button(row7Frame, activebackground = "salmon1", bg = "tomato4", command = lambda:buttonPress(dTLazButton), text = "Dead Tainted\n Lazarus", image = dTLazTkImage, compound = BOTTOM)
 tsoulButton = Button(row7Frame, activebackground = "salmon1", bg = "tomato4", command = lambda:buttonPress(tsoulButton), text = "Tainted\n Soul", image = tsoulTkImage, compound = BOTTOM)
+dEsauButton = Button(row7Frame, activebackground = "salmon1", bg = "tomato4", command = lambda:buttonPress(dEsauButton), text = "Dark Esau", image = dEsauTkImage, compound = BOTTOM)
 
 row1Frame.pack()
 isaacButton.pack(side = LEFT)
@@ -219,6 +243,7 @@ lazRisenButton.pack(side = LEFT)
 soulButton.pack(side = LEFT)
 dTLazButton.pack(side = LEFT)
 tsoulButton.pack(side = LEFT)
+dEsauButton.pack(side = LEFT)
 
 def resetAllButtons():
     isaacButton.config(activebackground = "salmon1", bg = "tomato4", relief = RAISED)
@@ -260,9 +285,10 @@ def resetAllButtons():
     soulButton.config(activebackground = "salmon1", bg = "tomato4", relief = RAISED)
     dTLazButton.config(activebackground = "salmon1", bg = "tomato4", relief = RAISED)
     tsoulButton.config(activebackground = "salmon1", bg = "tomato4", relief = RAISED)
+    dEsauButton.config(activebackground = "salmon1", bg = "tomato4", relief = RAISED)
     
 
-resetButton = Button(window, command = resetAllButtons, text = "Reset", font = 40)
-resetButton.pack()
+resetButton = Button(window, command = resetAllButtons, text = "Reset", font = "bold 12")
+resetButton.pack(pady = 5)
 
 window.mainloop()
